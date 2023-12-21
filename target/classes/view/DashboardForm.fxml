@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.JFXButton?>
+
+<AnchorPane fx:id="pane" prefHeight="451.0" prefWidth="720.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.DashboardFormController">
+   <children>
+      <ImageView fitHeight="537.0" fitWidth="720.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" style="-fx-opacity: 99%;">
+         <image>
+            <Image url="@../img/imgGroceryStore.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="52.0" layoutY="-11.0" prefHeight="77.0" prefWidth="622.0" style="-fx-background-color: #994D1C; -fx-background-radius: 15px; -fx-opacity: 90%;" />
+      <Label alignment="CENTER" layoutX="86.0" layoutY="4.0" prefHeight="55.0" prefWidth="274.0" text="Grocery Store" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="35.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblDate" alignment="CENTER" layoutX="409.0" layoutY="12.0" prefHeight="45.0" prefWidth="126.0" text="yyyy-MM-dd" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="17.0" />
+         </font></Label>
+      <Label fx:id="lblTime" alignment="CENTER" layoutX="539.0" layoutY="12.0" prefHeight="45.0" prefWidth="113.0" text="HH:mm:ss" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="17.0" />
+         </font></Label>
+      <JFXButton layoutX="51.0" layoutY="107.0" onAction="#customerButtonOnAction" prefHeight="55.0" prefWidth="162.0" style="-fx-background-color: #164863; -fx-background-radius: 15;" text="Customer" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </JFXButton>
+      <JFXButton layoutX="51.0" layoutY="181.0" onAction="#itemButtonOnAction" prefHeight="55.0" prefWidth="162.0" style="-fx-background-color: #164863; -fx-background-radius: 15;" text="Item" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </JFXButton>
+      <JFXButton layoutX="51.0" layoutY="256.0" onAction="#detailsButtonOnAction" prefHeight="55.0" prefWidth="162.0" style="-fx-background-color: #164863; -fx-background-radius: 15;" text="Order Details" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </JFXButton>
+      <JFXButton layoutX="51.0" layoutY="351.0" onAction="#placeOrderButtonOnAction" prefHeight="77.0" prefWidth="162.0" style="-fx-background-color: #981717; -fx-background-radius: 20;" text="Place Order" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="18.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>
