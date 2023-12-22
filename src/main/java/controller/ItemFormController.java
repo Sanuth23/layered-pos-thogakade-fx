@@ -1,10 +1,13 @@
 package controller;
 
+import bo.BoFactory;
+import bo.custom.ItemBo;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import dao.util.BoType;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -62,7 +65,7 @@ public class ItemFormController {
     @FXML
     private TreeTableColumn colOption;
 
-    private ItemDao itemDao = new ItemDaoImpl();
+    private ItemBo itemBo = BoFactory.getInstance().getBo(BoType.ITEM);
 
     public void initialize(){
         colCode.setCellValueFactory(new TreeItemPropertyValueFactory<>("code"));
@@ -105,7 +108,7 @@ public class ItemFormController {
     private void loadItemTable() {
         ObservableList<ItemTm> itemList = FXCollections.observableArrayList();
         try {
-            List<ItemDto> dtoList = itemDao.allItems();
+            List<ItemDto> dtoList = itemBo.allItems();
 
             for (ItemDto dto:dtoList) {
                 JFXButton btn = new JFXButton("Delete");
@@ -133,7 +136,7 @@ public class ItemFormController {
 
     private void deleteCustomer(String code) {
         try {
-            boolean isDeleted = itemDao.deleteItem(code);
+            boolean isDeleted = itemBo.deleteItem(code);
             if (isDeleted) {
                 new Alert(Alert.AlertType.INFORMATION,"Item Deleted!").show();
                 loadItemTable();
@@ -159,7 +162,7 @@ public class ItemFormController {
     @FXML
     void saveButtonOnAction(ActionEvent event) {
         try {
-            boolean isSaved = itemDao.saveItem(new ItemDto(txtCode.getText(), txtDescription.getText(),
+            boolean isSaved = itemBo.saveItem(new ItemDto(txtCode.getText(), txtDescription.getText(),
                     Double.parseDouble(txtPrice.getText()), Integer.parseInt(txtQty.getText()))
             );
             if (isSaved) {
@@ -178,7 +181,7 @@ public class ItemFormController {
     @FXML
     void updateButtonOnAction(ActionEvent event) {
         try {
-            boolean isUpdated = itemDao.updateItem(new ItemDto(txtCode.getText(), txtDescription.getText(),
+            boolean isUpdated = itemBo.updateItem(new ItemDto(txtCode.getText(), txtDescription.getText(),
                     Double.parseDouble(txtPrice.getText()), Integer.parseInt(txtQty.getText()))
             );
             if (isUpdated) {

@@ -3,7 +3,6 @@ package bo.custom.impl;
 import bo.custom.CustomerBo;
 import dao.DaoFactory;
 import dao.custom.CustomerDao;
-import dao.custom.impl.CustomerDaoImpl;
 import dao.util.DaoType;
 import dto.CustomerDto;
 import entity.Customer;
