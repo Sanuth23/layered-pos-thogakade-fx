@@ -1,10 +1,9 @@
-package model.impl;
+package dao.custom.impl;
 
 import db.DBConnection;
-import dto.CustomerDto;
 import dto.OrderDto;
-import model.OrderDetailModel;
-import model.OrderModel;
+import dao.custom.OrderDetailDao;
+import dao.custom.OrderDao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,9 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderModelImpl implements OrderModel {
+public class OrderDaoImpl implements OrderDao {
 
-    OrderDetailModel orderDetailModel = new OrderDetailModelImpl();
+    OrderDetailDao orderDetailDao = new OrderDetailDaoImpl();
     @Override
     public boolean saveOrder(OrderDto dto) throws SQLException {
         Connection connection = null;
@@ -29,7 +28,7 @@ public class OrderModelImpl implements OrderModel {
             pstm.setString(2, dto.getDate());
             pstm.setString(3, dto.getCustId());
             if (pstm.executeUpdate() > 0) {
-                boolean isDetailSaved = orderDetailModel.saveOrderDetails(dto.getList());
+                boolean isDetailSaved = orderDetailDao.saveOrderDetails(dto.getList());
                 if (isDetailSaved) {
                     connection.commit();
                     return true;
