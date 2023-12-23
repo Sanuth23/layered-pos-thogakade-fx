@@ -15,18 +15,18 @@ import java.util.List;
 public class CustomerDaoImpl implements CustomerDao {
 
     @Override
-    public CustomerDto searchCustomer(String id) {
+    public Customer searchCustomer(String id) {
         return null;
     }
 
     @Override
-    public CustomerDto getCustomer(String id) throws SQLException, ClassNotFoundException {
+    public Customer getCustomer(String id) throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM Customer WHERE id=?";
         PreparedStatement pstm = DBConnection.getInstanceOf().getConnection().prepareStatement(sql);
         pstm.setString(1,id);
         ResultSet resultSet = pstm.executeQuery();
         if (resultSet.next()){
-            return new CustomerDto(
+            return new Customer(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3),

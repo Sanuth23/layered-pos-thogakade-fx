@@ -3,6 +3,7 @@ package controller;
 import bo.BoFactory;
 import bo.custom.CustomerBo;
 import bo.custom.ItemBo;
+import bo.custom.OrderBo;
 import bo.custom.impl.CustomerBoImpl;
 import com.jfoenix.controls.*;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
@@ -89,8 +90,7 @@ public class PlaceOrderFormController {
 
     private CustomerBo customerBo = BoFactory.getInstance().getBo(BoType.CUSTOMER);
     private ItemBo itemBo = BoFactory.getInstance().getBo(BoType.ITEM);
-    private OrderDao orderDao = new OrderDaoImpl();
-    private ItemDao itemDao = new ItemDaoImpl();
+    private OrderBo orderBo = BoFactory.getInstance().getBo(BoType.ORDER);
 
     private ObservableList<PlaceOrderTm> tmList = FXCollections.observableArrayList();
 
@@ -125,15 +125,7 @@ public class PlaceOrderFormController {
 
     private void generateId() {
         try {
-            OrderDto dto = orderDao.lastOrder();
-            if (dto!=null){
-                String id = dto.getOrderId();
-                int num = Integer.parseInt(id.split("[D]")[1]);
-                num++;
-                lblOrderId.setText(String.format("D%03d",num));
-            }else {
-                lblOrderId.setText("D001");
-            }
+            lblOrderId.setText(orderBo.generateId());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
@@ -185,7 +177,7 @@ public class PlaceOrderFormController {
     void addToCartButtonOnAction(ActionEvent event) {
 
         try {
-            double amount = itemDao.getItem(cmbCode.getValue().toString()).getPrice() * Integer.parseInt(txtQty.getText());
+            double amount = itemBo.getItem(cmbCode.getValue().toString()).getPrice() * Integer.parseInt(txtQty.getText());
             JFXButton btn = new JFXButton("Delete");
             btn.setStyle("-fx-background-color: #af0c0c; -fx-text-fill: white; ");
 
@@ -247,7 +239,7 @@ public class PlaceOrderFormController {
 
         boolean isSaved = false;
         try {
-            isSaved = orderDao.saveOrder(new OrderDto(
+            isSaved = orderBo.saveOrder(new OrderDto(
                     lblOrderId.getText(),
                     LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),
                     cmbCustId.getValue().toString(),

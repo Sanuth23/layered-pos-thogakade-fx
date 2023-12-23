@@ -27,7 +27,8 @@ public class OrderDetailDaoImpl implements OrderDetailDao {
                 isDetailsSaved = false;
             }
         }
-        return isDetailsSaved;    }
+        return isDetailsSaved;
+    }
 
     @Override
     public boolean deleteOrderDetail(String id, String code) throws SQLException, ClassNotFoundException {

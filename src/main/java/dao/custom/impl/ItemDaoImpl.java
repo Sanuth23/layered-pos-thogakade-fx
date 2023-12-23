@@ -14,13 +14,13 @@ import java.util.List;
 
 public class ItemDaoImpl implements ItemDao {
     @Override
-    public ItemDto getItem(String code) throws SQLException, ClassNotFoundException {
+    public Item getItem(String code) throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM item WHERE code=?";
         PreparedStatement pstm = DBConnection.getInstanceOf().getConnection().prepareStatement(sql);
         pstm.setString(1,code);
         ResultSet resultSet = pstm.executeQuery();
         if (resultSet.next()){
-            return new ItemDto(
+            return new Item(
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getDouble(3),

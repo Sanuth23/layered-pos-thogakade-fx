@@ -1,10 +1,16 @@
 package controller;
 
+import bo.BoFactory;
+import bo.custom.CustomerBo;
+import bo.custom.ItemBo;
+import bo.custom.OrderBo;
+import bo.custom.OrderDetailBo;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTreeTableView;
 import com.jfoenix.controls.RecursiveTreeItem;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import dao.util.BoType;
 import dto.OrderDetailDto;
 import dto.OrderDto;
 import dto.tm.OrderTm;
@@ -79,10 +85,11 @@ public class OrderDetailController {
     @FXML
     private TreeTableColumn<?, ?> colPlaceOption;
 
-    private CustomerDao customerDao = new CustomerDaoImpl();
-    private ItemDao itemDao = new ItemDaoImpl();
-    private OrderDao orderDao = new OrderDaoImpl();
-    private OrderDetailDao orderDetailDao = new OrderDetailDaoImpl();
+    private CustomerBo customerBo = BoFactory.getInstance().getBo(BoType.CUSTOMER);
+    private ItemBo itemBo = BoFactory.getInstance().getBo(BoType.ITEM);
+    private OrderBo orderBo = BoFactory.getInstance().getBo(BoType.ORDER);
+    private OrderDetailBo orderDetailBo = BoFactory.getInstance().getBo(BoType.ORDER_DETAIL);
+//private OrderDetailDao orderDetailDao = new OrderDetailDaoImpl();
 
     public void initialize() {
         colOrderId.setCellValueFactory(new TreeItemPropertyValueFactory<>("orderId"));
@@ -127,14 +134,14 @@ public class OrderDetailController {
         ObservableList<PlaceOrderTm> placeOrderTmList = FXCollections.observableArrayList();
 
         try {
-            List<OrderDetailDto> dtoList = orderDetailDao.allOrderDetails(newValue.getValue().getOrderId());
+            List<OrderDetailDto> dtoList = orderDetailBo.orderItems(newValue.getValue().getOrderId());
 
             for (OrderDetailDto dto:dtoList) {
                 JFXButton btn = new JFXButton("Delete");
                 btn.setStyle("-fx-background-color: #af0c0c; -fx-text-fill: white; ");
                 PlaceOrderTm placeOrderTm = new PlaceOrderTm(
                         dto.getItemCode(),
-                        itemDao.getItem(dto.getItemCode()).getDescription(),
+                        itemBo.getItem(dto.getItemCode()).getDescription(),
                         dto.getQty(),
                         dto.getQty() * dto.getUnitPrice(),
                         btn
@@ -157,7 +164,7 @@ public class OrderDetailController {
 
     private void deleteOrderDetail(String orderId, String itemCode) {
         try {
-            boolean isDeleted = orderDetailDao.deleteOrderDetail(orderId,itemCode);
+            boolean isDeleted = orderDetailBo.deleteOrderDetail(orderId,itemCode);
             if (isDeleted) {
                 new Alert(Alert.AlertType.INFORMATION,"Item Deleted!").show();
                 tblOrder.refresh();
@@ -175,7 +182,7 @@ public class OrderDetailController {
         ObservableList<OrderTm> tmList = FXCollections.observableArrayList();
 
         try {
-            List<OrderDto> dtoList = orderDao.allOrders();
+            List<OrderDto> dtoList = orderBo.allOrders();
 
             for (OrderDto dto:dtoList) {
                 JFXButton btn = new JFXButton("Delete");
@@ -184,7 +191,7 @@ public class OrderDetailController {
                         dto.getOrderId(),
                         dto.getDate(),
                         dto.getCustId(),
-                        customerDao.getCustomer(dto.getCustId()).getName(),
+                        customerBo.getCustomer(dto.getCustId()).getName(),
                         btn
                 );
 
@@ -205,7 +212,7 @@ public class OrderDetailController {
 
     private void deleteOrder(String orderId) {
         try {
-            boolean isDeleted = orderDao.deleteOrder(orderId);
+            boolean isDeleted = orderBo.deleteOrder(orderId);
             if (isDeleted) {
                 new Alert(Alert.AlertType.INFORMATION,"Order Deleted!").show();
                 loadOrderTable();

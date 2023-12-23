@@ -52,4 +52,16 @@ public class CustomerBoImpl implements CustomerBo {
         }
         return list;
     }
+
+    @Override
+    public CustomerDto getCustomer(String id) throws SQLException, ClassNotFoundException {
+        Customer customer = customerDao.getCustomer(id);
+
+        return (new CustomerDto(
+                customer.getId(),
+                customer.getName(),
+                customer.getAddress(),
+                customer.getSalary()
+        ));
+    }
 }

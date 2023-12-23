@@ -16,7 +16,7 @@ public class OrderDaoImpl implements OrderDao {
 
     OrderDetailDao orderDetailDao = new OrderDetailDaoImpl();
     @Override
-    public boolean saveOrder(OrderDto dto) throws SQLException {
+    public boolean save(OrderDto dto) throws SQLException {
         Connection connection = null;
         try {
             connection = DBConnection.getInstanceOf().getConnection();
@@ -44,6 +44,11 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
+    public boolean update(OrderDto dto) throws SQLException, ClassNotFoundException {
+        return false;
+    }
+
+    @Override
     public OrderDto lastOrder() throws SQLException, ClassNotFoundException {
         String sql = "SELECT * FROM orders ORDER BY id DESC LIMIT 1";
         PreparedStatement pstm = DBConnection.getInstanceOf().getConnection().prepareStatement(sql);
@@ -62,7 +67,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public boolean deleteOrder(String id) throws SQLException, ClassNotFoundException {
+    public boolean delete(String id) throws SQLException, ClassNotFoundException {
         String sql = "DELETE FROM Orders WHERE id=?";
         PreparedStatement pstm = DBConnection.getInstanceOf().getConnection().prepareStatement(sql);
         pstm.setString(1,id);
@@ -71,7 +76,7 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public List<OrderDto> allOrders() throws SQLException, ClassNotFoundException {
+    public List<OrderDto> getAll() throws SQLException, ClassNotFoundException {
         List<OrderDto> list = new ArrayList<>();
         String sql = "SELECT * FROM Orders";
         PreparedStatement pstm = DBConnection.getInstanceOf().getConnection().prepareStatement(sql);
