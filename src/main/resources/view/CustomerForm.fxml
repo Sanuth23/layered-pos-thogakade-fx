@@ -55,5 +55,10 @@
             <TreeTableColumn fx:id="colOption" prefWidth="92.0" text="Option" />
          </columns>
       </JFXTreeTableView>
+      <JFXButton layoutX="624.0" layoutY="481.0" onAction="#reportButtonOnAction" prefHeight="27.0" prefWidth="67.0" style="-fx-background-color: orange;" text="Report" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="13.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>
