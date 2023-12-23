@@ -1,5 +1,6 @@
 package dao.custom.impl;
 
+import dao.util.CrudUtil;
 import db.DBConnection;
 import dto.OrderDetailDto;
 import dao.custom.OrderDetailDao;
@@ -17,13 +18,9 @@ public class OrderDetailDaoImpl implements OrderDetailDao {
         boolean isDetailsSaved = true;
         for (OrderDetailDto dto:list) {
             String sql = "INSERT INTO orderdetail VALUES(?,?,?,?)";
-            PreparedStatement pstm = DBConnection.getInstanceOf().getConnection().prepareStatement(sql);
-            pstm.setString(1,dto.getOrderId());
-            pstm.setString(2,dto.getItemCode());
-            pstm.setInt(3,dto.getQty());
-            pstm.setDouble(4,dto.getUnitPrice());
 
-            if(!(pstm.executeUpdate()>0)){
+            boolean b = (CrudUtil.execute(sql,dto.getOrderId(),dto.getItemCode(),dto.getQty(),dto.getUnitPrice()));
+            if(!b){
                 isDetailsSaved = false;
             }
         }
@@ -33,10 +30,8 @@ public class OrderDetailDaoImpl implements OrderDetailDao {
     @Override
     public boolean deleteOrderDetail(String id, String code) throws SQLException, ClassNotFoundException {
         String sql = "DELETE FROM OrderDetail WHERE orderId=? AND itemCode=?";
-        PreparedStatement pstm = DBConnection.getInstanceOf().getConnection().prepareStatement(sql);
-        pstm.setString(1,id);
-        pstm.setString(2,code);
-        return pstm.executeUpdate()>0;
+
+        return CrudUtil.execute(sql,id,code);
     }
 
     @Override
