@@ -39,6 +39,7 @@ dao/util/HibernateUtil.class
 dao/SuperDao.class
 dao/custom/CustomerDao.class
 controller/OrderDetailController.class
+entity/OrderDetailsKey.class
 bo/custom/impl/OrderDetailBoImpl.class
 dto/CustomerDto.class
 dto/tm/CustomerTm.class
