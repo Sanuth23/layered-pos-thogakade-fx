@@ -1,12 +1,19 @@
 package dao.custom.impl;
 
 import dao.util.CrudUtil;
+import dao.util.HibernateUtil;
 import db.DBConnection;
+import dto.OrderDetailDto;
 import dto.OrderDto;
 import dao.custom.OrderDetailDao;
 import dao.custom.OrderDao;
+import entity.*;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,7 +24,7 @@ public class OrderDaoImpl implements OrderDao {
     OrderDetailDao orderDetailDao = new OrderDetailDaoImpl();
     @Override
     public boolean save(OrderDto dto) throws SQLException {
-        Connection connection = null;
+        /* Connection connection = null;
         try {
             connection = DBConnection.getInstanceOf().getConnection();
             connection.setAutoCommit(false);
@@ -37,7 +44,33 @@ public class OrderDaoImpl implements OrderDao {
         }finally {
             connection.setAutoCommit(true);
         }
-        return false;
+        return false;*/
+
+        Session session = HibernateUtil.getSession();
+        Transaction transaction = session.beginTransaction();
+        Orders order = new Orders(
+                dto.getOrderId(),
+                Date.valueOf(dto.getDate())
+        );
+        order.setCustomer(session.find(Customer.class,dto.getCustId()));
+        session.save(order);
+
+        List<OrderDetailDto> list = dto.getList(); //dto type
+
+        for (OrderDetailDto detailDto:list) {
+            OrderDetail orderDetail = new OrderDetail(
+                    new OrderDetailsKey(detailDto.getOrderId(), detailDto.getItemCode()),
+                    order,
+                    session.find(Item.class, detailDto.getItemCode()),
+                    detailDto.getQty(),
+                    detailDto.getUnitPrice()
+            );
+            session.save(orderDetail);
+        }
+
+        transaction.commit();
+        session.close();
+        return true;
     }
 
     @Override
@@ -47,13 +80,31 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public boolean delete(String id) throws SQLException, ClassNotFoundException {
-        String sql = "DELETE FROM Orders WHERE id=?";
-
-        return CrudUtil.execute(sql,id);
+        Session session = HibernateUtil.getSession();
+        Transaction transaction = session.beginTransaction();
+        session.delete(session.find(Orders.class,id));
+        transaction.commit();
+        session.close();
+        return true;
     }
 
     @Override
     public List<OrderDto> getAll() throws SQLException, ClassNotFoundException {
+        Session session = HibernateUtil.getSession();
+        Query query = session.createQuery("FROM Orders ");
+        List<Orders> orderList = query.list();
+        List<OrderDto> list = new ArrayList<>();
+        for (Orders orders:orderList) {
+            list.add(new OrderDto(
+                    orders.getId(),
+                    orders.getDate().toString(),
+                    orders.getCustomer().getId(),
+                    null
+            ));
+        }
+        session.close();
+        return list;
+        /*
         List<OrderDto> list = new ArrayList<>();
         String sql = "SELECT * FROM Orders";
         ResultSet result = CrudUtil.execute(sql);
@@ -65,7 +116,7 @@ public class OrderDaoImpl implements OrderDao {
                     null
             ));
         }
-        return list;
+        return list;*/
     }
 
     @Override
