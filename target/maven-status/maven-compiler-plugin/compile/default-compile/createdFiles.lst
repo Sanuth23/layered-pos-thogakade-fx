@@ -35,6 +35,7 @@ dto/tm/OrderTm.class
 dto/ItemDto.class
 Main.class
 dto/tm/PlaceOrderTm.class
+dao/util/HibernateUtil.class
 dao/SuperDao.class
 dao/custom/CustomerDao.class
 controller/OrderDetailController.class

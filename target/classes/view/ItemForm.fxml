@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import com.jfoenix.controls.JFXTreeTableView?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TreeTableColumn?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="itemPane" prefHeight="501.0" prefWidth="806.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ItemFormController">
+<AnchorPane fx:id="itemPane" prefHeight="501.0" prefWidth="806.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ItemFormController">
    <children>
        <ImageView fitHeight="526.0" fitWidth="807.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true" style="-fx-opacity: 20%;">
            <image>
@@ -55,6 +51,11 @@
            </font>
        </JFXButton>
        <JFXButton layoutX="700.0" layoutY="480.0" onAction="#reloadButtonOnAction" prefHeight="27.0" prefWidth="67.0" style="-fx-background-color: #175e1e;" text="Reload" textFill="WHITE">
+           <font>
+               <Font name="Arial Bold" size="13.0" />
+           </font>
+       </JFXButton>
+       <JFXButton layoutX="614.0" layoutY="481.0" onAction="#reportButtonOnAction" prefHeight="27.0" prefWidth="67.0" style="-fx-background-color: orange;" text="Report" textFill="WHITE">
            <font>
                <Font name="Arial Bold" size="13.0" />
            </font>
