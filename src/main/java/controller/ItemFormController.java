@@ -126,7 +126,7 @@ public class ItemFormController {
                 );
 
                 btn.setOnAction(actionEvent -> {
-                    deleteCustomer(itemTm.getCode());
+                    deleteItem(itemTm.getCode());
                 });
                 itemList.add(itemTm);
             }
@@ -139,7 +139,7 @@ public class ItemFormController {
         }
     }
 
-    private void deleteCustomer(String code) {
+    private void deleteItem(String code) {
         try {
             boolean isDeleted = itemBo.deleteItem(code);
             if (isDeleted) {
